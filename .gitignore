@@ -1,0 +1,6 @@
+# ide && editor config
+.idea
+.vscode
+# build file
+.node_modules
+elm-stuff
