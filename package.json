@@ -1,0 +1,17 @@
+{
+  "name": "p1",
+  "version": "0.0.1",
+  "description": "VG100-S3 Project 1",
+  "main": "src/Main.elm",
+  "devDependencies": {
+    "@commitlint/config-conventional": "^17.6.3",
+    "husky": "^8.0.0",
+    "standard-version": "^9.5.0"
+  },
+  "scripts": {
+    "release": "standard-version",
+    "publish": "git push --follow-tags origin master",
+    "prepare": "husky install"
+  },
+  "author": "P1 Team2"
+}
