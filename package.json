@@ -4,11 +4,13 @@
   "description": "VG100-S3 Project 1",
   "main": "src/Main.elm",
   "devDependencies": {
+    "@commitlint/cli": "^17.6.3",
     "@commitlint/config-conventional": "^17.6.3",
     "husky": "^8.0.0",
     "standard-version": "^9.5.0"
   },
   "scripts": {
+    "test": "echo testing...",
     "release": "standard-version",
     "publish": "git push --follow-tags origin master",
     "prepare": "husky install"
