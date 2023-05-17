@@ -5248,23 +5248,39 @@ var $author$project$Template$Brick$brick = F2(
 				[content]));
 	});
 var $author$project$View$Game$brickProp = {
-	style: {color: 'red', height: 30, margin: 10, width: 50}
+	style: {color: 'red', height: 30, margin: 5, width: 50}
 };
-var $author$project$View$Game$layoutProp = {colMargin: 10, colNum: 10, height: 10, padding: 10, rowMargin: 10, rowNum: 10, width: 10};
-var $author$project$Template$Layout$generateDivs = F2(
-	function (count, content) {
-		return (count <= 0) ? _List_Nil : A2(
-			$elm$core$List$cons,
-			content,
-			A2($author$project$Template$Layout$generateDivs, count - 1, content));
-	});
-var $author$project$Template$Layout$rowLayout = F2(
-	function (props, content) {
+var $author$project$Template$Layout$layout = F2(
+	function (prop, element) {
+		var cellStyle = _List_fromArray(
+			[
+				A2($elm$html$Html$Attributes$style, 'display', 'inline-block')
+			]);
+		var generateCell = function (_v1) {
+			return A2(
+				$elm$html$Html$div,
+				cellStyle,
+				_List_fromArray(
+					[element]));
+		};
+		var generateRow = function (_v0) {
+			return A2(
+				$elm$html$Html$div,
+				_List_Nil,
+				A2(
+					$elm$core$List$map,
+					generateCell,
+					A2($elm$core$List$range, 1, prop.colNum)));
+		};
 		return A2(
 			$elm$html$Html$div,
 			_List_Nil,
-			A2($author$project$Template$Layout$generateDivs, props.rowNum, content));
+			A2(
+				$elm$core$List$map,
+				generateRow,
+				A2($elm$core$List$range, 1, prop.rowNum)));
 	});
+var $author$project$View$Game$layoutProp = {colMargin: 10, colNum: 10, height: 10, padding: 10, rowMargin: 10, rowNum: 10, width: 10};
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $author$project$View$Game$gamePage = function (props) {
@@ -5284,8 +5300,7 @@ var $author$project$View$Game$gamePage = function (props) {
 					[
 						$elm$html$Html$text(props.title)
 					])),
-				bricks,
-				A2($author$project$Template$Layout$rowLayout, $author$project$View$Game$layoutProp, bricks)
+				A2($author$project$Template$Layout$layout, $author$project$View$Game$layoutProp, bricks)
 			]));
 };
 var $author$project$Main$view = function (model) {

@@ -27,10 +27,9 @@ type alias Model =
 
 init : Model
 init =
-    { 
-        gameProps={
-            title="",
-            body=""
+    { gameProps =
+        { title = ""
+        , body = ""
         }
     }
 

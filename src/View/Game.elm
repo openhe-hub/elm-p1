@@ -3,7 +3,7 @@ module View.Game exposing (..)
 import Html exposing (..)
 import Html.Events exposing (..)
 import Template.Brick exposing (BrickProps, brick)
-import Template.Layout exposing (LayoutProp, rowLayout)
+import Template.Layout exposing (LayoutProp, layout, rowLayout)
 
 
 
@@ -24,7 +24,7 @@ brickProp =
         { color = "red"
         , height = 30
         , width = 50
-        , margin = 10
+        , margin = 5
         }
     }
 
@@ -49,6 +49,7 @@ gamePage props =
     in
     div []
         [ div [] [ text props.title ]
-        , bricks
-        , rowLayout layoutProp bricks
+
+        -- , bricks
+        , layout layoutProp bricks
         ]
