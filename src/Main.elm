@@ -1,8 +1,11 @@
 module Main exposing (..)
 
 import Browser
+import Debug
 import Html exposing (Html, br, button, div, text)
 import Html.Events exposing (onClick)
+import Template.Brick exposing (BrickProps, brick)
+import View.Game exposing (GameProps, gamePage)
 
 
 
@@ -18,12 +21,22 @@ main =
 
 
 type alias Model =
-    Int
+    { gameProps : GameProps
+    }
 
 
 init : Model
 init =
-    0
+    { gameProps =
+        { title = "title"
+        , body = "body"
+        , brickProps =
+            { color = "red"
+            , height = 50
+            , width = 50
+            }
+        }
+    }
 
 
 
@@ -31,22 +44,14 @@ init =
 
 
 type Msg
-    = Increment
-    | Decrement
-    | Reset
+    = Run
 
 
 update : Msg -> Model -> Model
 update msg model =
     case msg of
-        Increment ->
-            model + 1
-
-        Decrement ->
-            model - 1
-
-        Reset ->
-            init
+        Run ->
+            model |> Debug.log ""
 
 
 
@@ -56,9 +61,5 @@ update msg model =
 view : Model -> Html Msg
 view model =
     div []
-        [ button [ onClick Decrement ] [ text "-" ]
-        , div [] [ text (String.fromInt model) ]
-        , button [ onClick Increment ] [ text "+" ]
-        , br [] []
-        , button [ onClick Reset ] [ text "reset" ]
+        [ gamePage model.gameProps
         ]
