@@ -2,27 +2,53 @@ module View.Game exposing (..)
 
 import Html exposing (..)
 import Html.Events exposing (..)
-import Template.Brick exposing(brick, BrickProps)
+import Template.Brick exposing (BrickProps, brick)
+import Template.Layout exposing (LayoutProp, rowLayout)
+
+
 
 -- main
-
-
 -- update
-
 -- view
+
+
 type alias GameProps =
     { title : String
     , body : String
-    , brickProps : BrickProps
     }
 
-gamePage: GameProps -> Html msg
+
+brickProp : BrickProps
+brickProp =
+    { style =
+        { color = "red"
+        , height = 30
+        , width = 50
+        , margin = 10
+        }
+    }
+
+
+layoutProp : LayoutProp
+layoutProp =
+    { height = 10
+    , width = 10
+    , colNum = 10
+    , rowNum = 10
+    , colMargin = 10
+    , rowMargin = 10
+    , padding = 10
+    }
+
+
+gamePage : GameProps -> Html msg
 gamePage props =
     let
         bricks =
-            brick props.brickProps (text props.body)
+            brick brickProp (text props.body)
     in
     div []
-        [ div [] [text props.title]
+        [ div [] [ text props.title ]
         , bricks
+        , rowLayout layoutProp bricks
         ]
