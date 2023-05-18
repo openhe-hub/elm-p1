@@ -23,6 +23,6 @@ brick props content =
         [ backgroundColor props.style.color
         , height (vh props.style.height)
         , width (vw props.style.width)
-        , margins (List.repeat 4 (px props.style.width))
+        , margins (List.repeat 4 (vw props.style.margin))
         ]
         [ content ]

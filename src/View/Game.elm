@@ -12,19 +12,21 @@ import Template.Layout exposing (LayoutProp, layout, rowLayout)
 -- view
 
 
-type alias GameProps =
-    { title : String
+type alias GameProp =
+    { colNum : Int
+    , rowNum : Int
     , body : String
+    , title : String
     }
 
 
-brickProp : BrickProps
-brickProp =
+brickProp : GameProp -> BrickProps
+brickProp gameProp =
     { style =
         { color = "red"
-        , height = 3
-        , width = 5
-        , margin = 5
+        , height = 30 // gameProp.rowNum
+        , width = (100 - (gameProp.colNum + 1)) // gameProp.colNum
+        , margin = 1
         }
     }
 
@@ -41,14 +43,14 @@ layoutProp =
     }
 
 
-gamePage : GameProps -> Html msg
-gamePage props =
+gamePage : GameProp -> Html msg
+gamePage gameProp =
     let
         bricks =
-            brick brickProp (text props.body)
+            brick (brickProp gameProp) (text gameProp.body)
     in
     div []
-        [ div [] [ text props.title ]
+        [ div [] [ text gameProp.title ]
 
         -- , bricks
         , layout layoutProp bricks

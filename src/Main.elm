@@ -5,7 +5,7 @@ import Debug
 import Html exposing (Html, br, button, div, text)
 import Html.Events exposing (onClick)
 import Template.Brick exposing (BrickProps, brick)
-import View.Game exposing (GameProps, gamePage)
+import View.Game exposing (GameProp, gamePage)
 
 
 
@@ -21,15 +21,18 @@ main =
 
 
 type alias Model =
-    { gameProps : GameProps
+    { gameProps : GameProp
     }
 
 
 init : Model
 init =
     { gameProps =
-        { title = ""
-        , body = ""
+        { 
+            colNum=10,
+            rowNum=10,
+            body="",
+            title=""
         }
     }
 
