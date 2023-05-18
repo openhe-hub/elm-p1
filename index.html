@@ -5212,26 +5212,47 @@ var $author$project$Utils$CssUtils$cssConvertor = F2(
 var $author$project$Utils$CssUtils$backgroundColor = function (colorStr) {
 	return A2($author$project$Utils$CssUtils$cssConvertor, 'background-color', colorStr);
 };
-var $author$project$Utils$CssUtils$intToPxStr = function (len) {
-	return $elm$core$String$fromInt(len) + 'px';
+var $author$project$Utils$CssUtils$height = function (heightStr) {
+	return A2($author$project$Utils$CssUtils$cssConvertor, 'height', heightStr);
 };
-var $author$project$Utils$CssUtils$height = function (heightNum) {
-	return A2(
-		$author$project$Utils$CssUtils$cssConvertor,
-		'height',
-		$author$project$Utils$CssUtils$intToPxStr(heightNum));
-};
-var $author$project$Utils$CssUtils$margin = function (marginNum) {
+var $author$project$Utils$CssUtils$margins = function (marginStrList) {
 	return A2(
 		$author$project$Utils$CssUtils$cssConvertor,
 		'margin',
-		$author$project$Utils$CssUtils$intToPxStr(marginNum));
+		A2($elm$core$String$join, ' ', marginStrList));
 };
-var $author$project$Utils$CssUtils$width = function (widthNum) {
-	return A2(
-		$author$project$Utils$CssUtils$cssConvertor,
-		'width',
-		$author$project$Utils$CssUtils$intToPxStr(widthNum));
+var $author$project$Utils$CssUtils$px = function (len) {
+	return $elm$core$String$fromInt(len) + 'px';
+};
+var $elm$core$List$repeatHelp = F3(
+	function (result, n, value) {
+		repeatHelp:
+		while (true) {
+			if (n <= 0) {
+				return result;
+			} else {
+				var $temp$result = A2($elm$core$List$cons, value, result),
+					$temp$n = n - 1,
+					$temp$value = value;
+				result = $temp$result;
+				n = $temp$n;
+				value = $temp$value;
+				continue repeatHelp;
+			}
+		}
+	});
+var $elm$core$List$repeat = F2(
+	function (n, value) {
+		return A3($elm$core$List$repeatHelp, _List_Nil, n, value);
+	});
+var $author$project$Utils$CssUtils$vh = function (percent) {
+	return $elm$core$String$fromInt(percent) + 'vh';
+};
+var $author$project$Utils$CssUtils$vw = function (percent) {
+	return $elm$core$String$fromInt(percent) + 'vw';
+};
+var $author$project$Utils$CssUtils$width = function (widthStr) {
+	return A2($author$project$Utils$CssUtils$cssConvertor, 'width', widthStr);
 };
 var $author$project$Template$Brick$brick = F2(
 	function (props, content) {
@@ -5240,15 +5261,21 @@ var $author$project$Template$Brick$brick = F2(
 			_List_fromArray(
 				[
 					$author$project$Utils$CssUtils$backgroundColor(props.style.color),
-					$author$project$Utils$CssUtils$height(props.style.height),
-					$author$project$Utils$CssUtils$width(props.style.width),
-					$author$project$Utils$CssUtils$margin(props.style.margin)
+					$author$project$Utils$CssUtils$height(
+					$author$project$Utils$CssUtils$vh(props.style.height)),
+					$author$project$Utils$CssUtils$width(
+					$author$project$Utils$CssUtils$vw(props.style.width)),
+					$author$project$Utils$CssUtils$margins(
+					A2(
+						$elm$core$List$repeat,
+						4,
+						$author$project$Utils$CssUtils$px(props.style.width)))
 				]),
 			_List_fromArray(
 				[content]));
 	});
 var $author$project$View$Game$brickProp = {
-	style: {color: 'red', height: 30, margin: 5, width: 50}
+	style: {color: 'red', height: 3, margin: 5, width: 5}
 };
 var $author$project$Template$Layout$layout = F2(
 	function (prop, element) {

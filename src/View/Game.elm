@@ -22,8 +22,8 @@ brickProp : BrickProps
 brickProp =
     { style =
         { color = "red"
-        , height = 30
-        , width = 50
+        , height = 3
+        , width = 5
         , margin = 5
         }
     }

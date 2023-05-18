@@ -7,11 +7,15 @@ import Html.Attributes exposing (style)
 
 -- convertor tools
 
-
-intToPxStr : Int -> String
-intToPxStr len =
+px : Int -> String
+px len =
     String.fromInt len ++ "px"
 
+vh : Int->String
+vh percent =String.fromInt percent ++ "vh"
+
+vw : Int->String
+vw percent =String.fromInt percent ++ "vw" 
 
 floatToPxStr : Float -> String
 floatToPxStr len =
@@ -32,16 +36,21 @@ backgroundColor colorStr =
     cssConvertor "background-color" colorStr
 
 
-width : Int -> Html.Attribute msg
-width widthNum =
-    cssConvertor "width" (intToPxStr widthNum)
+width : String -> Html.Attribute msg
+width widthStr =
+    cssConvertor "width"  widthStr
 
 
-height : Int -> Html.Attribute msg
-height heightNum =
-    cssConvertor "height" (intToPxStr heightNum)
+height : String -> Html.Attribute msg
+height heightStr =
+    cssConvertor "height" heightStr
 
 
-margin : Int -> Html.Attribute msg
-margin marginNum =
-    cssConvertor "margin" (intToPxStr marginNum)
+margin : String -> Html.Attribute msg
+margin marginStr =
+    cssConvertor "margin" marginStr
+
+margins: List(String) -> Html.Attribute msg
+margins marginStrList = 
+    cssConvertor "margin" (String.join " " marginStrList)
+

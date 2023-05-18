@@ -21,8 +21,8 @@ brick : BrickProps -> Html msg -> Html msg
 brick props content =
     div
         [ backgroundColor props.style.color
-        , height props.style.height
-        , width props.style.width
-        , margin props.style.margin
+        , height (vh props.style.height)
+        , width (vw props.style.width)
+        , margins (List.repeat 4 (px props.style.width))
         ]
         [ content ]
