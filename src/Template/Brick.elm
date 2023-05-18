@@ -7,9 +7,6 @@ import Utils.CssUtils exposing (..)
 
 type alias BrickCssProp =
     { color : String
-    , height : Float
-    , width : Float
-    , margin : Float
     }
 
 
@@ -24,9 +21,9 @@ brick brickProp =
     let
         cssStyle =
             [ backgroundColor brickProp.style.color
-            , height (vh brickProp.style.height)
-            , width (vw brickProp.style.width)
-            , margins (List.repeat 4 (vw brickProp.style.margin))
+            , height (vh brickProp.data.height)
+            , width (vw brickProp.data.width)
+            , margins (List.repeat 4 (vw brickProp.data.margin))
             ]
                 ++ absoluePosition brickProp.data.center
     in

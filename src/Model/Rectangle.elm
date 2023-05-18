@@ -7,4 +7,5 @@ type alias Rectangle =
     { center : Point
     , height : Float
     , width : Float
+    , margin: Float
     }

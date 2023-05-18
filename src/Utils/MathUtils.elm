@@ -1,5 +1,7 @@
 module Utils.MathUtils exposing (..)
 
+import Model.Point exposing (Point)
+
 
 intToFloat : Int -> Float
 intToFloat n =
@@ -9,3 +11,8 @@ intToFloat n =
 
         Nothing ->
             -1 |> Debug.log "intToFloat error!"
+
+
+point : Float -> Float -> Point
+point x y =
+    { x = x, y = y }

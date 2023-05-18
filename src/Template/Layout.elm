@@ -34,16 +34,16 @@ rowLayout props content =
 layout : LayoutProp -> List (List (Html msg)) -> Html msg
 layout prop elements =
     let
-        rows = 
-            List.map 
-                (\row -> 
-                    div 
+        rows =
+            List.map
+                (\row ->
+                    div
                         [ style "display" "flex"
                         , style "flex-direction" "row"
                         , style "justify-content" "space-between"
-                        ] 
+                        ]
                         row
-                ) 
+                )
                 elements
 
         gridStyle =
@@ -51,6 +51,5 @@ layout prop elements =
             , style "flex-direction" "column"
             , style "justify-content" "space-between"
             ]
-
     in
     div gridStyle rows

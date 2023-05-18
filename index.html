@@ -5281,25 +5281,27 @@ var $author$project$Template$Brick$brick = function (brickProp) {
 			[
 				$author$project$Utils$CssUtils$backgroundColor(brickProp.style.color),
 				$author$project$Utils$CssUtils$height(
-				$author$project$Utils$CssUtils$vh(brickProp.style.height)),
+				$author$project$Utils$CssUtils$vh(brickProp.data.height)),
 				$author$project$Utils$CssUtils$width(
-				$author$project$Utils$CssUtils$vw(brickProp.style.width)),
+				$author$project$Utils$CssUtils$vw(brickProp.data.width)),
 				$author$project$Utils$CssUtils$margins(
 				A2(
 					$elm$core$List$repeat,
 					4,
-					$author$project$Utils$CssUtils$vw(brickProp.style.margin)))
+					$author$project$Utils$CssUtils$vw(brickProp.data.margin)))
 			]),
 		$author$project$Utils$CssUtils$absoluePosition(brickProp.data.center));
 	return A2($elm$html$Html$div, cssStyle, _List_Nil);
 };
-var $author$project$View$Game$brickProp = F5(
-	function (gameProp, center, height, width, margin) {
+var $author$project$Utils$Constant$brickHeight = 40.0;
+var $author$project$View$Game$brickProp = F2(
+	function (gameProp, rect) {
 		return {
-			data: {center: center, height: 3, width: 3},
-			style: {color: '#22b8cf', height: height, margin: margin, width: width}
+			data: {center: rect.center, height: rect.height, margin: rect.margin, width: rect.width},
+			style: {color: '#22b8cf'}
 		};
 	});
+var $author$project$Utils$Constant$brickWidth = 100.0;
 var $elm$core$Basics$negate = function (n) {
 	return -n;
 };
@@ -5322,17 +5324,24 @@ var $author$project$Utils$CssUtils$calcAdaptiveVw = F3(
 	function (elementMargin, totalWidth, num) {
 		return (totalWidth - ($author$project$Utils$MathUtils$intToFloat(num + 1) * elementMargin)) / $author$project$Utils$MathUtils$intToFloat(num);
 	});
-var $author$project$View$Game$calcPoint = F5(
-	function (rowIdx, colIdx, height, width, margin) {
-		return {
-			x: ($author$project$Utils$MathUtils$intToFloat(colIdx) * margin) + (($author$project$Utils$MathUtils$intToFloat(colIdx) - 0.5) * width),
-			y: ($author$project$Utils$MathUtils$intToFloat(rowIdx) * margin) + (($author$project$Utils$MathUtils$intToFloat(rowIdx) - 0.5) * height)
+var $author$project$View$Game$calcPoint = F3(
+	function (rowIdx, colIdx, rect) {
+		var center = {
+			x: ($author$project$Utils$MathUtils$intToFloat(colIdx) * rect.margin) + (($author$project$Utils$MathUtils$intToFloat(colIdx) - 0.5) * rect.width),
+			y: ($author$project$Utils$MathUtils$intToFloat(rowIdx) * rect.margin) + (($author$project$Utils$MathUtils$intToFloat(rowIdx) - 0.5) * rect.height)
 		};
+		return _Utils_update(
+			rect,
+			{center: center});
 	});
 var $author$project$View$Game$brickProps = function (gameProp) {
 	var margin = 1.0;
-	var width = A3($author$project$Utils$CssUtils$calcAdaptiveVw, margin, 100.0, gameProp.colNum);
-	var height = A3($author$project$Utils$CssUtils$calcAdaptiveVh, margin, 40.0, gameProp.rowNum);
+	var rect = {
+		center: {x: 0, y: 0},
+		height: A3($author$project$Utils$CssUtils$calcAdaptiveVh, margin, $author$project$Utils$Constant$brickHeight, gameProp.rowNum),
+		margin: margin,
+		width: A3($author$project$Utils$CssUtils$calcAdaptiveVw, margin, $author$project$Utils$Constant$brickWidth, gameProp.colNum)
+	};
 	return A2(
 		$elm$core$List$indexedMap,
 		F2(
@@ -5341,13 +5350,10 @@ var $author$project$View$Game$brickProps = function (gameProp) {
 					$elm$core$List$indexedMap,
 					F2(
 						function (colIdx, _v1) {
-							return A5(
+							return A2(
 								$author$project$View$Game$brickProp,
 								gameProp,
-								A5($author$project$View$Game$calcPoint, rowIdx, colIdx, height, width, margin),
-								height,
-								width,
-								margin);
+								A3($author$project$View$Game$calcPoint, rowIdx, colIdx, rect));
 						}),
 					A2($elm$core$List$range, 0, gameProp.colNum - 1));
 			}),
@@ -5378,6 +5384,37 @@ var $author$project$Template$Layout$layout = F2(
 		return A2($elm$html$Html$div, gridStyle, rows);
 	});
 var $author$project$View$Game$layoutProp = {colMargin: 10, colNum: 10, height: 10, padding: 10, rowMargin: 10, rowNum: 10, width: 10};
+var $author$project$Template$Paddle$paddle = function (paddleProp) {
+	var cssStyle = _Utils_ap(
+		_List_fromArray(
+			[
+				$author$project$Utils$CssUtils$backgroundColor(paddleProp.style.color),
+				$author$project$Utils$CssUtils$height(
+				$author$project$Utils$CssUtils$vh(paddleProp.data.height)),
+				$author$project$Utils$CssUtils$width(
+				$author$project$Utils$CssUtils$vw(paddleProp.data.width)),
+				$author$project$Utils$CssUtils$margins(
+				A2(
+					$elm$core$List$repeat,
+					4,
+					$author$project$Utils$CssUtils$vw(paddleProp.data.margin)))
+			]),
+		$author$project$Utils$CssUtils$absoluePosition(paddleProp.data.center));
+	return A2($elm$html$Html$div, cssStyle, _List_Nil);
+};
+var $author$project$Utils$MathUtils$point = F2(
+	function (x, y) {
+		return {x: x, y: y};
+	});
+var $author$project$View$Game$paddleProp = {
+	data: {
+		center: A2($author$project$Utils$MathUtils$point, 45.0, 90.0),
+		height: 2,
+		margin: 1,
+		width: 10
+	},
+	style: {color: '#f03e3e'}
+};
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $author$project$View$Game$gamePage = function (gameProp) {
@@ -5406,7 +5443,8 @@ var $author$project$View$Game$gamePage = function (gameProp) {
 					[
 						$elm$html$Html$text(gameProp.title)
 					])),
-				A2($author$project$Template$Layout$layout, $author$project$View$Game$layoutProp, bricks)
+				A2($author$project$Template$Layout$layout, $author$project$View$Game$layoutProp, bricks),
+				$author$project$Template$Paddle$paddle($author$project$View$Game$paddleProp)
 			]));
 };
 var $author$project$Main$view = function (model) {
