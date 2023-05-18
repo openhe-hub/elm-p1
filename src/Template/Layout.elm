@@ -31,21 +31,26 @@ rowLayout props content =
         (generate props.rowNum content)
 
 
-layout : LayoutProp -> Html msg -> Html msg
-layout prop element =
+layout : LayoutProp -> List (List (Html msg)) -> Html msg
+layout prop elements =
     let
-        cellStyle : List (Html.Attribute msg)
-        cellStyle =
-            [ style "display" "inline-block" ]
+        rows = 
+            List.map 
+                (\row -> 
+                    div 
+                        [ style "display" "flex"
+                        , style "flex-direction" "row"
+                        , style "justify-content" "space-between"
+                        ] 
+                        row
+                ) 
+                elements
 
-        generateCell : Int -> Html msg
-        generateCell _ =
-            div cellStyle [ element ]
+        gridStyle =
+            [ style "display" "flex"
+            , style "flex-direction" "column"
+            , style "justify-content" "space-between"
+            ]
 
-        generateRow : Int -> Html msg
-        generateRow _ =
-            div []
-                (List.map generateCell (List.range 1 prop.colNum))
     in
-    div []
-        (List.map generateRow (List.range 1 prop.rowNum))
+    div gridStyle rows

@@ -2,6 +2,7 @@ module Utils.CssUtils exposing (..)
 
 import Html exposing (Html)
 import Html.Attributes exposing (style)
+import Model.Point exposing (Point)
 import Utils.MathUtils exposing (..)
 
 
@@ -28,6 +29,11 @@ floatToPxStr len =
 cssConvertor : String -> String -> Html.Attribute msg
 cssConvertor attrName attrVal =
     style attrName attrVal
+
+
+css : List ( String, String ) -> List (Html.Attribute msg)
+css styles =
+    List.map (\( property, value ) -> style property value) styles
 
 
 
@@ -57,6 +63,11 @@ margin marginStr =
 margins : List String -> Html.Attribute msg
 margins marginStrList =
     cssConvertor "margin" (String.join " " marginStrList)
+
+
+absoluePosition : Point -> List (Html.Attribute msg)
+absoluePosition center =
+    css [ ( "position", "absolute" ), ( "top", vh center.y ), ( "left", vw center.x ) ]
 
 
 calcAdaptiveVw : Float -> Float -> Int -> Float

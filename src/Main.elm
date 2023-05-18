@@ -4,7 +4,7 @@ import Browser
 import Debug
 import Html exposing (Html, br, button, div, text)
 import Html.Events exposing (onClick)
-import Template.Brick exposing (BrickProps, brick)
+import Template.Brick exposing (BrickProp, brick)
 import View.Game exposing (GameProp, gamePage)
 
 

@@ -5205,6 +5205,36 @@ var $author$project$Main$update = F2(
 var $elm$html$Html$div = _VirtualDom_node('div');
 var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
 var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
+var $author$project$Utils$CssUtils$css = function (styles) {
+	return A2(
+		$elm$core$List$map,
+		function (_v0) {
+			var property = _v0.a;
+			var value = _v0.b;
+			return A2($elm$html$Html$Attributes$style, property, value);
+		},
+		styles);
+};
+var $elm$core$String$fromFloat = _String_fromNumber;
+var $author$project$Utils$CssUtils$vh = function (percent) {
+	return $elm$core$String$fromFloat(percent) + 'vh';
+};
+var $author$project$Utils$CssUtils$vw = function (percent) {
+	return $elm$core$String$fromFloat(percent) + 'vw';
+};
+var $author$project$Utils$CssUtils$absoluePosition = function (center) {
+	return $author$project$Utils$CssUtils$css(
+		_List_fromArray(
+			[
+				_Utils_Tuple2('position', 'absolute'),
+				_Utils_Tuple2(
+				'top',
+				$author$project$Utils$CssUtils$vh(center.y)),
+				_Utils_Tuple2(
+				'left',
+				$author$project$Utils$CssUtils$vw(center.x))
+			]));
+};
 var $author$project$Utils$CssUtils$cssConvertor = F2(
 	function (attrName, attrVal) {
 		return A2($elm$html$Html$Attributes$style, attrName, attrVal);
@@ -5242,35 +5272,33 @@ var $elm$core$List$repeat = F2(
 	function (n, value) {
 		return A3($elm$core$List$repeatHelp, _List_Nil, n, value);
 	});
-var $elm$core$String$fromFloat = _String_fromNumber;
-var $author$project$Utils$CssUtils$vh = function (percent) {
-	return $elm$core$String$fromFloat(percent) + 'vh';
-};
-var $author$project$Utils$CssUtils$vw = function (percent) {
-	return $elm$core$String$fromFloat(percent) + 'vw';
-};
 var $author$project$Utils$CssUtils$width = function (widthStr) {
 	return A2($author$project$Utils$CssUtils$cssConvertor, 'width', widthStr);
 };
-var $author$project$Template$Brick$brick = F2(
-	function (props, content) {
-		return A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$author$project$Utils$CssUtils$backgroundColor(props.style.color),
-					$author$project$Utils$CssUtils$height(
-					$author$project$Utils$CssUtils$vh(props.style.height)),
-					$author$project$Utils$CssUtils$width(
-					$author$project$Utils$CssUtils$vw(props.style.width)),
-					$author$project$Utils$CssUtils$margins(
-					A2(
-						$elm$core$List$repeat,
-						4,
-						$author$project$Utils$CssUtils$vw(props.style.margin)))
-				]),
-			_List_fromArray(
-				[content]));
+var $author$project$Template$Brick$brick = function (brickProp) {
+	var cssStyle = _Utils_ap(
+		_List_fromArray(
+			[
+				$author$project$Utils$CssUtils$backgroundColor(brickProp.style.color),
+				$author$project$Utils$CssUtils$height(
+				$author$project$Utils$CssUtils$vh(brickProp.style.height)),
+				$author$project$Utils$CssUtils$width(
+				$author$project$Utils$CssUtils$vw(brickProp.style.width)),
+				$author$project$Utils$CssUtils$margins(
+				A2(
+					$elm$core$List$repeat,
+					4,
+					$author$project$Utils$CssUtils$vw(brickProp.style.margin)))
+			]),
+		$author$project$Utils$CssUtils$absoluePosition(brickProp.data.center));
+	return A2($elm$html$Html$div, cssStyle, _List_Nil);
+};
+var $author$project$View$Game$brickProp = F5(
+	function (gameProp, center, height, width, margin) {
+		return {
+			data: {center: center, height: 3, width: 3},
+			style: {color: '#22b8cf', height: height, margin: margin, width: width}
+		};
 	});
 var $elm$core$Basics$negate = function (n) {
 	return -n;
@@ -5294,54 +5322,78 @@ var $author$project$Utils$CssUtils$calcAdaptiveVw = F3(
 	function (elementMargin, totalWidth, num) {
 		return (totalWidth - ($author$project$Utils$MathUtils$intToFloat(num + 1) * elementMargin)) / $author$project$Utils$MathUtils$intToFloat(num);
 	});
-var $author$project$View$Game$brickProp = function (gameProp) {
-	return {
-		style: {
-			color: '#22b8cf',
-			height: A3($author$project$Utils$CssUtils$calcAdaptiveVh, 1.0, 40.0, gameProp.rowNum),
-			margin: 1.0,
-			width: A3($author$project$Utils$CssUtils$calcAdaptiveVw, 1.0, 90.0, gameProp.colNum)
-		}
-	};
+var $author$project$View$Game$calcPoint = F5(
+	function (rowIdx, colIdx, height, width, margin) {
+		return {
+			x: ($author$project$Utils$MathUtils$intToFloat(colIdx) * margin) + (($author$project$Utils$MathUtils$intToFloat(colIdx) - 0.5) * width),
+			y: ($author$project$Utils$MathUtils$intToFloat(rowIdx) * margin) + (($author$project$Utils$MathUtils$intToFloat(rowIdx) - 0.5) * height)
+		};
+	});
+var $author$project$View$Game$brickProps = function (gameProp) {
+	var margin = 1.0;
+	var width = A3($author$project$Utils$CssUtils$calcAdaptiveVw, margin, 100.0, gameProp.colNum);
+	var height = A3($author$project$Utils$CssUtils$calcAdaptiveVh, margin, 40.0, gameProp.rowNum);
+	return A2(
+		$elm$core$List$indexedMap,
+		F2(
+			function (rowIdx, _v0) {
+				return A2(
+					$elm$core$List$indexedMap,
+					F2(
+						function (colIdx, _v1) {
+							return A5(
+								$author$project$View$Game$brickProp,
+								gameProp,
+								A5($author$project$View$Game$calcPoint, rowIdx, colIdx, height, width, margin),
+								height,
+								width,
+								margin);
+						}),
+					A2($elm$core$List$range, 0, gameProp.colNum - 1));
+			}),
+		A2($elm$core$List$range, 0, gameProp.rowNum - 1));
 };
 var $author$project$Template$Layout$layout = F2(
-	function (prop, element) {
-		var cellStyle = _List_fromArray(
+	function (prop, elements) {
+		var rows = A2(
+			$elm$core$List$map,
+			function (row) {
+				return A2(
+					$elm$html$Html$div,
+					_List_fromArray(
+						[
+							A2($elm$html$Html$Attributes$style, 'display', 'flex'),
+							A2($elm$html$Html$Attributes$style, 'flex-direction', 'row'),
+							A2($elm$html$Html$Attributes$style, 'justify-content', 'space-between')
+						]),
+					row);
+			},
+			elements);
+		var gridStyle = _List_fromArray(
 			[
-				A2($elm$html$Html$Attributes$style, 'display', 'inline-block')
+				A2($elm$html$Html$Attributes$style, 'display', 'flex'),
+				A2($elm$html$Html$Attributes$style, 'flex-direction', 'column'),
+				A2($elm$html$Html$Attributes$style, 'justify-content', 'space-between')
 			]);
-		var generateCell = function (_v1) {
-			return A2(
-				$elm$html$Html$div,
-				cellStyle,
-				_List_fromArray(
-					[element]));
-		};
-		var generateRow = function (_v0) {
-			return A2(
-				$elm$html$Html$div,
-				_List_Nil,
-				A2(
-					$elm$core$List$map,
-					generateCell,
-					A2($elm$core$List$range, 1, prop.colNum)));
-		};
-		return A2(
-			$elm$html$Html$div,
-			_List_Nil,
-			A2(
-				$elm$core$List$map,
-				generateRow,
-				A2($elm$core$List$range, 1, prop.rowNum)));
+		return A2($elm$html$Html$div, gridStyle, rows);
 	});
 var $author$project$View$Game$layoutProp = {colMargin: 10, colNum: 10, height: 10, padding: 10, rowMargin: 10, rowNum: 10, width: 10};
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $author$project$View$Game$gamePage = function (gameProp) {
 	var bricks = A2(
-		$author$project$Template$Brick$brick,
-		$author$project$View$Game$brickProp(gameProp),
-		$elm$html$Html$text(gameProp.body));
+		$elm$core$List$indexedMap,
+		F2(
+			function (rowIdx, row) {
+				return A2(
+					$elm$core$List$indexedMap,
+					F2(
+						function (colIdx, col) {
+							return $author$project$Template$Brick$brick(col);
+						}),
+					row);
+			}),
+		$author$project$View$Game$brickProps(gameProp));
 	return A2(
 		$elm$html$Html$div,
 		_List_Nil,
