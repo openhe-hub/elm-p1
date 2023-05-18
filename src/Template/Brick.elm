@@ -6,9 +6,9 @@ import Utils.CssUtils exposing (..)
 
 type alias BrickCssProps =
     { color : String
-    , height : Int
-    , width : Int
-    , margin : Int
+    , height : Float
+    , width : Float
+    , margin : Float
     }
 
 

@@ -2,10 +2,7 @@ module Utils.CssUtils exposing (..)
 
 import Html exposing (Html)
 import Html.Attributes exposing (style)
-
-
-
--- convertor tools
+import Utils.MathUtils exposing (..)
 
 
 px : Int -> String
@@ -13,14 +10,14 @@ px len =
     String.fromInt len ++ "px"
 
 
-vh : Int -> String
+vh : Float -> String
 vh percent =
-    String.fromInt percent ++ "vh"
+    String.fromFloat percent ++ "vh"
 
 
-vw : Int -> String
+vw : Float -> String
 vw percent =
-    String.fromInt percent ++ "vw"
+    String.fromFloat percent ++ "vw"
 
 
 floatToPxStr : Float -> String
@@ -60,3 +57,13 @@ margin marginStr =
 margins : List String -> Html.Attribute msg
 margins marginStrList =
     cssConvertor "margin" (String.join " " marginStrList)
+
+
+calcAdaptiveVw : Float -> Float -> Int -> Float
+calcAdaptiveVw elementMargin totalWidth num =
+    (totalWidth - intToFloat (num + 1) * elementMargin) / intToFloat num
+
+
+calcAdaptiveVh : Float -> Float -> Int -> Float
+calcAdaptiveVh elementMargin totalHeight num =
+    (totalHeight - intToFloat (num + 1) * elementMargin) / intToFloat num

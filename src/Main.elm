@@ -28,11 +28,10 @@ type alias Model =
 init : Model
 init =
     { gameProps =
-        { 
-            colNum=10,
-            rowNum=10,
-            body="",
-            title=""
+        { colNum = 10
+        , rowNum = 10
+        , body = ""
+        , title = ""
         }
     }
 

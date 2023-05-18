@@ -4,6 +4,7 @@ import Html exposing (..)
 import Html.Events exposing (..)
 import Template.Brick exposing (BrickProps, brick)
 import Template.Layout exposing (LayoutProp, layout, rowLayout)
+import Utils.CssUtils exposing (calcAdaptiveVh, calcAdaptiveVw)
 
 
 
@@ -23,10 +24,10 @@ type alias GameProp =
 brickProp : GameProp -> BrickProps
 brickProp gameProp =
     { style =
-        { color = "red"
-        , height = 30 // gameProp.rowNum
-        , width = (100 - (gameProp.colNum + 1)) // gameProp.colNum
-        , margin = 1
+        { color = "#22b8cf"
+        , height = calcAdaptiveVh 1.0 40.0 gameProp.rowNum
+        , width = calcAdaptiveVw 1.0 90.0 gameProp.colNum
+        , margin = 1.0
         }
     }
 

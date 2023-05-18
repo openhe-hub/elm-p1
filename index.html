@@ -5242,11 +5242,12 @@ var $elm$core$List$repeat = F2(
 	function (n, value) {
 		return A3($elm$core$List$repeatHelp, _List_Nil, n, value);
 	});
+var $elm$core$String$fromFloat = _String_fromNumber;
 var $author$project$Utils$CssUtils$vh = function (percent) {
-	return $elm$core$String$fromInt(percent) + 'vh';
+	return $elm$core$String$fromFloat(percent) + 'vh';
 };
 var $author$project$Utils$CssUtils$vw = function (percent) {
-	return $elm$core$String$fromInt(percent) + 'vw';
+	return $elm$core$String$fromFloat(percent) + 'vw';
 };
 var $author$project$Utils$CssUtils$width = function (widthStr) {
 	return A2($author$project$Utils$CssUtils$cssConvertor, 'width', widthStr);
@@ -5271,9 +5272,36 @@ var $author$project$Template$Brick$brick = F2(
 			_List_fromArray(
 				[content]));
 	});
+var $elm$core$Basics$negate = function (n) {
+	return -n;
+};
+var $elm$core$String$toFloat = _String_toFloat;
+var $author$project$Utils$MathUtils$intToFloat = function (n) {
+	var _v0 = $elm$core$String$toFloat(
+		$elm$core$String$fromInt(n));
+	if (_v0.$ === 'Just') {
+		var _float = _v0.a;
+		return _float;
+	} else {
+		return A2($elm$core$Debug$log, 'intToFloat error!', -1);
+	}
+};
+var $author$project$Utils$CssUtils$calcAdaptiveVh = F3(
+	function (elementMargin, totalHeight, num) {
+		return (totalHeight - ($author$project$Utils$MathUtils$intToFloat(num + 1) * elementMargin)) / $author$project$Utils$MathUtils$intToFloat(num);
+	});
+var $author$project$Utils$CssUtils$calcAdaptiveVw = F3(
+	function (elementMargin, totalWidth, num) {
+		return (totalWidth - ($author$project$Utils$MathUtils$intToFloat(num + 1) * elementMargin)) / $author$project$Utils$MathUtils$intToFloat(num);
+	});
 var $author$project$View$Game$brickProp = function (gameProp) {
 	return {
-		style: {color: 'red', height: (30 / gameProp.rowNum) | 0, margin: 1, width: ((100 - (gameProp.colNum + 1)) / gameProp.colNum) | 0}
+		style: {
+			color: '#22b8cf',
+			height: A3($author$project$Utils$CssUtils$calcAdaptiveVh, 1.0, 40.0, gameProp.rowNum),
+			margin: 1.0,
+			width: A3($author$project$Utils$CssUtils$calcAdaptiveVw, 1.0, 90.0, gameProp.colNum)
+		}
 	};
 };
 var $author$project$Template$Layout$layout = F2(
