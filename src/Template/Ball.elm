@@ -1,14 +1,14 @@
 module Template.Ball exposing (..)
 
 import Html exposing (Html, div, text)
+import Model.Circle exposing (Circle)
 import Model.Rectangle exposing (Rectangle)
 import Utils.CssUtils exposing (..)
-import Model.Circle exposing (Circle)
 
 
 type alias BallCssProp =
-    { color : String,
-      margin: Float
+    { color : String
+    , margin : Float
     }
 
 

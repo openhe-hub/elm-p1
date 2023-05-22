@@ -1,7 +1,7 @@
 module Utils.MathUtils exposing (..)
 
 import Model.Point exposing (Point)
-import Model.Rectangle exposing(..)
+import Model.Rectangle exposing (..)
 
 
 intToFloat : Int -> Float
@@ -17,6 +17,7 @@ intToFloat n =
 point : Float -> Float -> Point
 point x y =
     { x = x, y = y }
+
 
 calcPoint : Int -> Int -> Rectangle -> Rectangle
 calcPoint rowIdx colIdx rect =

@@ -2,12 +2,15 @@ module View.Game exposing (..)
 
 import Html exposing (..)
 import Html.Events exposing (..)
+
 import Model.Point exposing (..)
 import Model.Rectangle exposing (Rectangle)
+
 import Template.Ball exposing (BallProp, ball)
 import Template.Brick exposing (BrickProp, brick)
 import Template.Layout exposing (LayoutProp, layout, rowLayout)
 import Template.Paddle exposing (PaddleProp, paddle)
+
 import Utils.Constant as Constant
 import Utils.CssUtils exposing (calcAdaptiveVh, calcAdaptiveVw)
 import Utils.MathUtils exposing (calcPoint, intToFloat, point)
