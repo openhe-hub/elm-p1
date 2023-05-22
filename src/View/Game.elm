@@ -4,12 +4,13 @@ import Html exposing (..)
 import Html.Events exposing (..)
 import Model.Point exposing (..)
 import Model.Rectangle exposing (Rectangle)
+import Template.Ball exposing (BallProp, ball)
 import Template.Brick exposing (BrickProp, brick)
 import Template.Layout exposing (LayoutProp, layout, rowLayout)
 import Template.Paddle exposing (PaddleProp, paddle)
 import Utils.Constant as Constant
 import Utils.CssUtils exposing (calcAdaptiveVh, calcAdaptiveVw)
-import Utils.MathUtils exposing (intToFloat, point)
+import Utils.MathUtils exposing (calcPoint, intToFloat, point)
 
 
 
@@ -24,6 +25,10 @@ type alias GameProp =
     , body : String
     , title : String
     }
+
+
+
+-- brick props
 
 
 brickProp : GameProp -> Rectangle -> BrickProp
@@ -65,15 +70,8 @@ brickProps gameProp =
         (List.range 0 (gameProp.rowNum - 1))
 
 
-calcPoint : Int -> Int -> Rectangle -> Rectangle
-calcPoint rowIdx colIdx rect =
-    let
-        center =
-            { x = intToFloat colIdx * rect.margin + (intToFloat colIdx - 0.5) * rect.width
-            , y = intToFloat rowIdx * rect.margin + (intToFloat rowIdx - 0.5) * rect.height
-            }
-    in
-    { rect | center = center }
+
+-- paddle props
 
 
 paddleProp : PaddleProp
@@ -90,6 +88,10 @@ paddleProp =
     }
 
 
+
+-- layout props
+
+
 layoutProp : LayoutProp
 layoutProp =
     { height = 10
@@ -99,6 +101,23 @@ layoutProp =
     , colMargin = 10
     , rowMargin = 10
     , padding = 10
+    }
+
+
+
+-- ball props
+
+
+ballProp : BallProp
+ballProp =
+    { style =
+        { color = "pink"
+        , margin = 0.1
+        }
+    , data =
+        { center = point 45.0 80.0
+        , radius = 20.0
+        }
     }
 
 
@@ -120,4 +139,5 @@ gamePage gameProp =
         [ div [] [ text gameProp.title ]
         , layout layoutProp bricks
         , paddle paddleProp
+        , ball ballProp
         ]

@@ -5242,6 +5242,22 @@ var $author$project$Utils$CssUtils$cssConvertor = F2(
 var $author$project$Utils$CssUtils$backgroundColor = function (colorStr) {
 	return A2($author$project$Utils$CssUtils$cssConvertor, 'background-color', colorStr);
 };
+var $author$project$Utils$CssUtils$px = function (len) {
+	return $elm$core$String$fromFloat(len) + 'px';
+};
+var $author$project$Utils$CssUtils$border = F3(
+	function (border_width, border_type, color) {
+		return A2(
+			$author$project$Utils$CssUtils$cssConvertor,
+			'border',
+			$author$project$Utils$CssUtils$px(border_width) + (' ' + (border_type + (' ' + color))));
+	});
+var $author$project$Utils$CssUtils$borderRadius = function (border_radius) {
+	return A2(
+		$author$project$Utils$CssUtils$cssConvertor,
+		'border-radius',
+		$author$project$Utils$CssUtils$px(border_radius));
+};
 var $author$project$Utils$CssUtils$height = function (heightStr) {
 	return A2($author$project$Utils$CssUtils$cssConvertor, 'height', heightStr);
 };
@@ -5274,6 +5290,37 @@ var $elm$core$List$repeat = F2(
 	});
 var $author$project$Utils$CssUtils$width = function (widthStr) {
 	return A2($author$project$Utils$CssUtils$cssConvertor, 'width', widthStr);
+};
+var $author$project$Template$Ball$ball = function (ballProp) {
+	var cssStyle = _Utils_ap(
+		_List_fromArray(
+			[
+				$author$project$Utils$CssUtils$backgroundColor(ballProp.style.color),
+				$author$project$Utils$CssUtils$height(
+				$author$project$Utils$CssUtils$px(ballProp.data.radius)),
+				$author$project$Utils$CssUtils$width(
+				$author$project$Utils$CssUtils$px(ballProp.data.radius)),
+				$author$project$Utils$CssUtils$margins(
+				A2(
+					$elm$core$List$repeat,
+					4,
+					$author$project$Utils$CssUtils$vw(ballProp.style.margin))),
+				A3($author$project$Utils$CssUtils$border, 0, 'solid', 'black'),
+				$author$project$Utils$CssUtils$borderRadius(10)
+			]),
+		$author$project$Utils$CssUtils$absoluePosition(ballProp.data.center));
+	return A2($elm$html$Html$div, cssStyle, _List_Nil);
+};
+var $author$project$Utils$MathUtils$point = F2(
+	function (x, y) {
+		return {x: x, y: y};
+	});
+var $author$project$View$Game$ballProp = {
+	data: {
+		center: A2($author$project$Utils$MathUtils$point, 45.0, 80.0),
+		radius: 20.0
+	},
+	style: {color: 'pink', margin: 0.1}
 };
 var $author$project$Template$Brick$brick = function (brickProp) {
 	var cssStyle = _Utils_ap(
@@ -5324,7 +5371,7 @@ var $author$project$Utils$CssUtils$calcAdaptiveVw = F3(
 	function (elementMargin, totalWidth, num) {
 		return (totalWidth - ($author$project$Utils$MathUtils$intToFloat(num + 1) * elementMargin)) / $author$project$Utils$MathUtils$intToFloat(num);
 	});
-var $author$project$View$Game$calcPoint = F3(
+var $author$project$Utils$MathUtils$calcPoint = F3(
 	function (rowIdx, colIdx, rect) {
 		var center = {
 			x: ($author$project$Utils$MathUtils$intToFloat(colIdx) * rect.margin) + (($author$project$Utils$MathUtils$intToFloat(colIdx) - 0.5) * rect.width),
@@ -5353,7 +5400,7 @@ var $author$project$View$Game$brickProps = function (gameProp) {
 							return A2(
 								$author$project$View$Game$brickProp,
 								gameProp,
-								A3($author$project$View$Game$calcPoint, rowIdx, colIdx, rect));
+								A3($author$project$Utils$MathUtils$calcPoint, rowIdx, colIdx, rect));
 						}),
 					A2($elm$core$List$range, 0, gameProp.colNum - 1));
 			}),
@@ -5402,10 +5449,6 @@ var $author$project$Template$Paddle$paddle = function (paddleProp) {
 		$author$project$Utils$CssUtils$absoluePosition(paddleProp.data.center));
 	return A2($elm$html$Html$div, cssStyle, _List_Nil);
 };
-var $author$project$Utils$MathUtils$point = F2(
-	function (x, y) {
-		return {x: x, y: y};
-	});
 var $author$project$View$Game$paddleProp = {
 	data: {
 		center: A2($author$project$Utils$MathUtils$point, 45.0, 90.0),
@@ -5444,7 +5487,8 @@ var $author$project$View$Game$gamePage = function (gameProp) {
 						$elm$html$Html$text(gameProp.title)
 					])),
 				A2($author$project$Template$Layout$layout, $author$project$View$Game$layoutProp, bricks),
-				$author$project$Template$Paddle$paddle($author$project$View$Game$paddleProp)
+				$author$project$Template$Paddle$paddle($author$project$View$Game$paddleProp),
+				$author$project$Template$Ball$ball($author$project$View$Game$ballProp)
 			]));
 };
 var $author$project$Main$view = function (model) {

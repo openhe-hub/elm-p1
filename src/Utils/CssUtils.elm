@@ -6,9 +6,9 @@ import Model.Point exposing (Point)
 import Utils.MathUtils exposing (..)
 
 
-px : Int -> String
+px : Float -> String
 px len =
-    String.fromInt len ++ "px"
+    String.fromFloat len ++ "px"
 
 
 vh : Float -> String
@@ -63,6 +63,16 @@ margin marginStr =
 margins : List String -> Html.Attribute msg
 margins marginStrList =
     cssConvertor "margin" (String.join " " marginStrList)
+
+
+border : Float -> String -> String -> Html.Attribute msg
+border border_width border_type color =
+    cssConvertor "border" (px border_width ++ " " ++ border_type ++ " " ++ color)
+
+
+borderRadius : Float -> Html.Attribute msg
+borderRadius border_radius =
+    cssConvertor "border-radius" (px border_radius)
 
 
 absoluePosition : Point -> List (Html.Attribute msg)
