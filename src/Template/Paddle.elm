@@ -16,7 +16,7 @@ type alias PaddleProp =
     }
 
 
-paddle :  PaddleProp -> Html msg
+paddle : PaddleProp -> Html msg
 paddle paddleProp =
     let
         cssStyle =
