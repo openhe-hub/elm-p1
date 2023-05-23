@@ -1,0 +1,13 @@
+kind: pipeline
+type: ssh
+name: default
+server:
+  host:
+    from_secret: runner_server
+  user: elf
+  ssh_key:
+    from_secret: runner_ssh_key
+steps:
+- name: prepare
+  commands:
+  - echo "Success"
